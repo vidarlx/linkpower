@@ -14,11 +14,12 @@ if distance > reach, power = 0
 ```
 
 ## Build & run
-
-
+```
+go mod download
+go run cmd/linkpower/main.go
+```
 
 ## Test
-
 ```
 go test ./...
 ```
@@ -27,6 +28,11 @@ Coverage
 ```
 go test -coverprofile cover.out ./...
 ```
+Show covered lines in a browser
+```
+go tool cover -html=cover.out
+```
+
 Show covered lines in a browser
 ```
 go tool cover -html=cover.out
