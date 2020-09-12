@@ -122,9 +122,46 @@ func TestWorld_FindBestLink(t *testing.T) {
 			stations: []*Station{
 				{ID: uuids[0], PosX: 20, PosY: 20, Reach: 1000},
 				{ID: uuids[1], PosX: 15, PosY: 15, Reach: 1000},
-				{ID: uuids[1], PosX: 10, PosY: 15, Reach: 100},
+				{ID: uuids[2], PosX: 10, PosY: 15, Reach: 100},
 			},
 			expectedStation: uuids[1],
+		},
+		// examples from file
+		"(0,0)": {
+			userDevice: NewDevice(0, 0),
+			stations: []*Station{
+				{ID: uuids[0], PosX: 0, PosY: 0, Reach: 10},
+				{ID: uuids[1], PosX: 20, PosY: 20, Reach: 5},
+				{ID: uuids[2], PosX: 10, PosY: 0, Reach: 12},
+			},
+			expectedStation: uuids[0],
+		},
+		"(100,100)": {
+			userDevice: NewDevice(100, 100),
+			stations: []*Station{
+				{ID: uuids[0], PosX: 0, PosY: 0, Reach: 10},
+				{ID: uuids[1], PosX: 20, PosY: 20, Reach: 5},
+				{ID: uuids[2], PosX: 10, PosY: 0, Reach: 12},
+			},
+			expectedErr: errors.New(ErrNoConnection),
+		},
+		"(15,10)": {
+			userDevice: NewDevice(15, 10),
+			stations: []*Station{
+				{ID: uuids[0], PosX: 0, PosY: 0, Reach: 10},
+				{ID: uuids[1], PosX: 20, PosY: 20, Reach: 5},
+				{ID: uuids[2], PosX: 10, PosY: 0, Reach: 12},
+			},
+			expectedErr: errors.New(ErrNoConnection),
+		},
+		"(18,18)": {
+			userDevice: NewDevice(18, 18),
+			stations: []*Station{
+				{ID: uuids[0], PosX: 0, PosY: 0, Reach: 10},
+				{ID: uuids[1], PosX: 20, PosY: 20, Reach: 5},
+				{ID: uuids[2], PosX: 10, PosY: 0, Reach: 12},
+			},
+			expectedErr: errors.New(ErrNoConnection),
 		},
 	}
 
