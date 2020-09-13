@@ -61,11 +61,6 @@ func (w *World) FindBestLink() (*Station, error) {
 		return powerTable[i].power > powerTable[j].power
 	})
 
-	// reverse to get higher...lower order
-	//for i, j := 0, len(powerTable)-1; i < j; i, j = i+1, j-1 {
-	//	powerTable[i], powerTable[j] = powerTable[j], powerTable[i]
-	//}
-
 	// all stations have 0 power
 	if powerTable[0].power == 0 {
 		return nil, errors.New(ErrNoConnection)
