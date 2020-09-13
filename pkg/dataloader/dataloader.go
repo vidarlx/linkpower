@@ -2,6 +2,7 @@ package dataloader
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"os"
 	"path"
@@ -38,6 +39,10 @@ func (d *DataLoader) LoadTestCases() (*TestCases, error) {
 
 	var tc *TestCases
 	json.Unmarshal(byteValue, &tc)
+
+	if len(*tc) == 0 {
+		return nil, errors.New(ErrInvalidData)
+	}
 
 	return tc, nil
 }

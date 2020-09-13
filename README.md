@@ -13,19 +13,24 @@ power = (reach - device's distance from linkstation)^2
 if distance > reach, power = 0
 ```
 
-## Build & run
-
-### local 
+## Build
 ```
 go mod download
-go run cmd/linkpower/main.go
+./script/build
 ```
 
-### docker
+## Run
+
+To run the program with a default data (device, stations), just run:
 ```
-docker build . -t linkpower
-docker run linkpower
+./linkpower
 ```
+
+If you want to provide a datafile, pass it through `-f` arg, like so:
+```
+./linkpower -f /path/to/file
+```
+See an example file structure in `./resources/test_data.json`
 
 ## Test
 ```
