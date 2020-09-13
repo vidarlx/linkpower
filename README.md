@@ -14,9 +14,17 @@ if distance > reach, power = 0
 ```
 
 ## Build & run
+
+### local 
 ```
 go mod download
 go run cmd/linkpower/main.go
+```
+
+### docker
+```
+docker build . -t linkpower
+docker run linkpower
 ```
 
 ## Test
