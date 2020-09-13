@@ -1,0 +1,15 @@
+version: "3.4"
+
+services:
+  app:
+    image: golang:1.14
+    working_dir: /app
+    volumes:
+      - .:/app
+      - pkg:/go/pkg
+      - ./resources:/app/resources
+    command: ["go", "run", "cmd/linkpower/main.go"]
+
+volumes:
+  pkg:
+  resources:

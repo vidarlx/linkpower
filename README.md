@@ -13,13 +13,14 @@ power = (reach - device's distance from linkstation)^2
 if distance > reach, power = 0
 ```
 
-## Build
+## GO tools
+### Build
 ```
 go mod download
 ./script/build
 ```
 
-## Run
+### Run
 
 To run the program with a default data (device, stations), just run:
 ```
@@ -32,7 +33,7 @@ If you want to provide a datafile, pass it through `-f` arg, like so:
 ```
 See an example file structure in `./resources/test_data.json`
 
-## Test
+### Test
 ```
 go test ./...
 ```
@@ -46,7 +47,24 @@ Show covered lines in a browser
 go tool cover -html=cover.out
 ```
 
-Show covered lines in a browser
+## Docker
+### Build
 ```
-go tool cover -html=cover.out
+docker build -t linkpower 
+```
+### Run
+To run with a sample dataset, simply type:
+```
+docker run linkpower
+```
+
+If you want to use your own file with Device and Stations defined, put 
+it to the `resources` directory, build and image and pass as an argument to `docker run`, like so:
+```
+docker run linkpower -f ./resources/test/ok.json
+```
+
+### Test
+```
+./script/test
 ```

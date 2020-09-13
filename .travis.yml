@@ -1,0 +1,11 @@
+language: minimal
+
+cache:
+  directories:
+    - .pkg
+
+services:
+  - docker
+
+script:
+  - docker-compose run --rm app go test ./...
