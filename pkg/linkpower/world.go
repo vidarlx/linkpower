@@ -47,13 +47,13 @@ func (w *World) GetStationByID(ID string) (*Station, error) {
 	return nil, errors.New(ErrNoStationWithID)
 }
 
-func (w *World) FindBestLink() (*Station, error) {
+func (w *World) FindBestLink() (s *Station, power float64, err error) {
 	if w.UserDevice == nil {
-		return nil, errors.New(ErrNoDeviceRegistered)
+		return nil, 0, errors.New(ErrNoDeviceRegistered)
 	}
 
 	if len(w.Stations) == 0 {
-		return nil, errors.New(ErrNoStationsAdded)
+		return nil, 0, errors.New(ErrNoStationsAdded)
 	}
 
 	powerTable := w.measureLinkPowerByStation()
@@ -63,22 +63,22 @@ func (w *World) FindBestLink() (*Station, error) {
 
 	// all stations have 0 power
 	if powerTable[0].power == 0 {
-		return nil, errors.New(ErrNoConnection)
+		return nil, 0, errors.New(ErrNoConnection)
 	}
 
 	bestStation, err := w.GetStationByID(powerTable[0].ID)
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 
-	return bestStation, nil
+	return bestStation, powerTable[0].power, nil
 }
 
 // Measure link power on all stations
 func (w *World) measureLinkPowerByStation() []powerByStation {
 	powerTable := []powerByStation{}
 	for _, s := range w.Stations {
-		deviceStationDistance := int(w.UserDevice.GetDistance(s))
+		deviceStationDistance := w.UserDevice.GetDistance(s)
 		powerTable = append(powerTable, powerByStation{ID: s.ID, power: s.CalculatePower(deviceStationDistance)})
 	}
 

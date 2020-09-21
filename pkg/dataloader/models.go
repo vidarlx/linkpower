@@ -14,7 +14,7 @@ type Device struct {
 }
 
 type Station struct {
-	X int `json:"x"`
-	Y int `json:"y"`
-	R int `json:"r"`
+	X int     `json:"x"`
+	Y int     `json:"y"`
+	R float64 `json:"r"`
 }

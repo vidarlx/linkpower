@@ -22,5 +22,5 @@ func (d Device) GetDistance(s *Station) float64 {
 	stationX, stationY := s.GetPosition()
 	distX := math.Pow(float64(stationX-d.PosX), 2)
 	distY := math.Pow(float64(stationY-d.PosY), 2)
-	return distX + distY
+	return math.Sqrt(distX + distY)
 }

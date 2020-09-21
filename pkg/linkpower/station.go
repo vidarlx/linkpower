@@ -5,17 +5,17 @@ import (
 )
 
 type station interface {
-	CalculatePower(deviceDistance int) int
+	CalculatePower(deviceDistance float64) float64
 }
 
 type Station struct {
 	ID    string
 	PosX  int
 	PosY  int
-	Reach int
+	Reach float64
 }
 
-func NewStation(x int, y int, r int) *Station {
+func NewStation(x int, y int, r float64) *Station {
 	return &Station{
 		ID:    GenerateID(),
 		PosX:  x,
@@ -28,7 +28,7 @@ func (s *Station) GetPosition() (int, int) {
 	return s.PosX, s.PosY
 }
 
-func (s *Station) CalculatePower(deviceDistance int) float64 {
+func (s *Station) CalculatePower(deviceDistance float64) float64 {
 	if deviceDistance > s.Reach {
 		return 0
 	}

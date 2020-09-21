@@ -8,7 +8,7 @@ import (
 
 func TestStation_CalculatePower(t *testing.T) {
 	testCases := map[string]struct {
-		distance      int
+		distance      float64
 		station       *Station
 		expectedPower float64
 	}{

@@ -25,22 +25,22 @@ func TestDevice_GetDistance(t *testing.T) {
 		"same quarter (north west)": {
 			station:          NewStation(0, 0, 10),
 			device:           NewDevice(3, 3),
-			expectedDistance: 18,
+			expectedDistance: 4.242640687119285,
 		},
 		"same quarter (south east)": {
 			station:          NewStation(-3, -3, 10),
 			device:           NewDevice(-5, -5),
-			expectedDistance: 8,
+			expectedDistance: 2.8284271247461903,
 		},
 		"different quarters (SE vs NW)": {
 			station:          NewStation(-3, -3, 10),
 			device:           NewDevice(5, 5),
-			expectedDistance: 128,
+			expectedDistance: 11.313708498984761,
 		},
 		"different quarters (NW vs SW)": {
 			station:          NewStation(3, 3, 10),
 			device:           NewDevice(-2, -2),
-			expectedDistance: 50,
+			expectedDistance: 7.0710678118654755,
 		},
 	}
 

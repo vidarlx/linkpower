@@ -68,6 +68,7 @@ func TestWorld_FindBestLink(t *testing.T) {
 		stations        []*Station
 		userDevice      *Device
 		expectedStation string
+		expectedPower   float64
 		expectedErr     error
 	}{
 		"no device": {
@@ -80,8 +81,8 @@ func TestWorld_FindBestLink(t *testing.T) {
 		"two stations - both out of reach": {
 			userDevice: NewDevice(0, 0),
 			stations: []*Station{
-				{ID: uuids[0], PosX: 1, PosY: 1, Reach: 1},
-				{ID: uuids[1], PosX: 10, PosY: 10, Reach: 99},
+				{ID: uuids[0], PosX: 15, PosY: 15, Reach: 1},
+				{ID: uuids[1], PosX: 10, PosY: 10, Reach: 9},
 			},
 			expectedErr: errors.New(ErrNoConnection),
 		},
@@ -91,6 +92,7 @@ func TestWorld_FindBestLink(t *testing.T) {
 				{ID: uuids[0], PosX: 1, PosY: 1, Reach: 5},
 			},
 			expectedStation: uuids[0],
+			expectedPower:   16,
 		},
 		"two stations - near and far from device": {
 			userDevice: NewDevice(0, 0),
@@ -99,6 +101,7 @@ func TestWorld_FindBestLink(t *testing.T) {
 				{ID: uuids[1], PosX: 10, PosY: 10, Reach: 1000},
 			},
 			expectedStation: uuids[1],
+			expectedPower:   971915.7287525381,
 		},
 		"two stations - 1st no reach": {
 			userDevice: NewDevice(0, 0),
@@ -107,6 +110,7 @@ func TestWorld_FindBestLink(t *testing.T) {
 				{ID: uuids[1], PosX: 10, PosY: 10, Reach: 201},
 			},
 			expectedStation: uuids[1],
+			expectedPower:   34915.86147926016,
 		},
 		"three stations - 3rd best power (bigger distance, but better reach)": {
 			userDevice: NewDevice(0, 0),
@@ -116,6 +120,7 @@ func TestWorld_FindBestLink(t *testing.T) {
 				{ID: uuids[2], PosX: 3, PosY: 3, Reach: 30},
 			},
 			expectedStation: uuids[2],
+			expectedPower:   663.441558772843,
 		},
 		"three stations - 2nd best power (3rd is nearest, but out of reach)": {
 			userDevice: NewDevice(0, 0),
@@ -125,6 +130,7 @@ func TestWorld_FindBestLink(t *testing.T) {
 				{ID: uuids[2], PosX: 10, PosY: 15, Reach: 100},
 			},
 			expectedStation: uuids[1],
+			expectedPower:   958023.5931288073,
 		},
 		// examples from file
 		"(0,0)": {
@@ -135,6 +141,7 @@ func TestWorld_FindBestLink(t *testing.T) {
 				{ID: uuids[2], PosX: 10, PosY: 0, Reach: 12},
 			},
 			expectedStation: uuids[0],
+			expectedPower:   100,
 		},
 		"(100,100)": {
 			userDevice: NewDevice(100, 100),
@@ -152,7 +159,8 @@ func TestWorld_FindBestLink(t *testing.T) {
 				{ID: uuids[1], PosX: 20, PosY: 20, Reach: 5},
 				{ID: uuids[2], PosX: 10, PosY: 0, Reach: 12},
 			},
-			expectedErr: errors.New(ErrNoConnection),
+			expectedStation: uuids[2],
+			expectedPower:   0.6718427000252355,
 		},
 		"(18,18)": {
 			userDevice: NewDevice(18, 18),
@@ -161,7 +169,8 @@ func TestWorld_FindBestLink(t *testing.T) {
 				{ID: uuids[1], PosX: 20, PosY: 20, Reach: 5},
 				{ID: uuids[2], PosX: 10, PosY: 0, Reach: 12},
 			},
-			expectedErr: errors.New(ErrNoConnection),
+			expectedStation: uuids[1],
+			expectedPower:   4.715728752538098,
 		},
 	}
 
@@ -171,13 +180,14 @@ func TestWorld_FindBestLink(t *testing.T) {
 		w.Stations = tc.stations
 		w.UserDevice = tc.userDevice
 
-		link, err := w.FindBestLink()
+		link, p, err := w.FindBestLink()
 		if tc.expectedErr != nil {
 			assert.Error(t, err)
 			assert.EqualError(t, tc.expectedErr, err.Error())
 		} else {
 			assert.NoError(t, err)
 			assert.Equal(t, tc.expectedStation, link.ID)
+			assert.Equal(t, tc.expectedPower, p)
 		}
 	}
 }

@@ -31,16 +31,16 @@ func main() {
 			}
 		}
 
-		bestLink, err := world.FindBestLink()
+		bestLink, power, err := world.FindBestLink()
 		if err != nil {
 			fmt.Printf("No link station within reach for point (%d,%d) \n", tc.Device.X, tc.Device.Y)
 			continue
 		}
 
 		fmt.Printf(
-			"Best link station for point (%d,%d) is (%d,%d) with power %d \n",
+			"Best link station for point (%d,%d) is (%d,%d) with power %g \n",
 			tc.Device.X, tc.Device.Y,
-			bestLink.PosX, bestLink.PosY, bestLink.Reach,
+			bestLink.PosX, bestLink.PosY, power,
 		)
 	}
 }
